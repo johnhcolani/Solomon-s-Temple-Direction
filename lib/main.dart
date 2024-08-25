@@ -4,7 +4,7 @@ import 'package:temple_direction/features/temple_direction/data/models/location_
 import 'package:temple_direction/features/temple_direction/data/repository/temple_direction_repository_impl.dart';
 import 'package:temple_direction/features/temple_direction/domain/usecases/get_direction.dart';
 import 'package:temple_direction/features/temple_direction/presentation/bloc/temple_direction_bloc.dart';
-import 'features/temple_direction/presentation/pages/direction_screen.dart';
+import 'features/temple_direction/presentation/screens/direction_screen.dart';
 
 void main() {
   runApp(const SolomonTempleApp());
