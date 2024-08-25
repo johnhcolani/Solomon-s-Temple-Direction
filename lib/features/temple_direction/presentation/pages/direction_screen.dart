@@ -73,21 +73,43 @@ class _DirectionPageState extends State<DirectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Temple of Solomon Direction')),
-      body: BlocBuilder<DirectionBloc, DirectionState>(
-        builder: (context, state) {
-          if (state is InitialState) {
-            return Center(child: Text('Fetching your location...'));
-          } else if (state is LoadingState) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is LoadedState) {
-            // Adjust the arrow direction based on the current heading and the calculated direction to the temple
-            double direction = state.direction - _currentHeading;
-            return DirectionWidget(direction: direction);
-          } else if (state is ErrorState) {
-            return Center(child: Text(state.message));
-          }
-          return Container();
-        },
+      body: RefreshIndicator(
+        onRefresh: _requestLocationAndFetchDirection, // Use the existing method for refresh
+        child: SingleChildScrollView( // Wrap BlocBuilder in a scrollable view for RefreshIndicator
+          physics: const AlwaysScrollableScrollPhysics(), // Ensure scrolling is always possible
+          child: BlocBuilder<DirectionBloc, DirectionState>(
+            builder: (context, state) {
+              if (state is InitialState) {
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  alignment: Alignment.center,
+                  child: Text('Fetching your location...'),
+                );
+              } else if (state is LoadingState) {
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is LoadedState) {
+                // Adjust the arrow direction based on the current heading and the calculated direction to the temple
+                double direction = state.direction - _currentHeading;
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  alignment: Alignment.center,
+                  child: DirectionWidget(direction: direction),
+                );
+              } else if (state is ErrorState) {
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  alignment: Alignment.center,
+                  child: Text(state.message),
+                );
+              }
+              return Container();
+            },
+          ),
+        ),
       ),
     );
   }
