@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:temple_direction/features/temple_direction/data/models/location_data_source.dart';
-import 'package:temple_direction/features/temple_direction/data/repository/temple_direction_repository_impl.dart';
-import 'package:temple_direction/features/temple_direction/domain/usecases/get_direction.dart';
-import 'package:temple_direction/features/temple_direction/presentation/bloc/temple_direction_bloc.dart';
+import 'features/temple_direction/data/models/location_data_source.dart';
+import 'features/temple_direction/data/repository/temple_direction_repository_impl.dart';
+import 'features/temple_direction/domain/usecases/get_direction.dart';
+import 'features/temple_direction/presentation/bloc/temple_direction_bloc.dart';
 import 'features/temple_direction/presentation/screens/direction_screen.dart';
 
 void main() {
