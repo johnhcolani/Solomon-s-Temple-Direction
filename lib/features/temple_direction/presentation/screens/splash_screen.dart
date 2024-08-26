@@ -1,65 +1,80 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import '../bloc/splash_bloc/splash_bloc.dart';
+import '../bloc/splash_bloc/splash_event.dart';
+import '../bloc/splash_bloc/splash_state.dart';
 import 'direction_screen.dart';
+ // Import your DirectionPage here
 
-
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Navigate to DirectionPage after 3 seconds
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => DirectionPage()),
-      );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.white, // Background color
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                'May your eyes be open toward this temple night and day, '
-                    'this place of which you said, ‘My Name shall be there,’ '
-                    'so that you will hear the prayer your servant prays toward this place.',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+      body: BlocProvider(
+        create: (context) => SplashBloc()..add(StartSplashEvent()),
+        child: BlocListener<SplashBloc, SplashState>(
+          listener: (context, state) {
+            if (state is SplashFinishedState) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const DirectionPage()),
+              );
+            }
+          },
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration:  const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/splash_background.png'),
+
+              fit: BoxFit.fill,
+              )
+            ),
+            // Background color
+            child: SafeArea(
+              child: Column(
+
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 250),
+                    child: Text(
+                      'Solomon\nPrayer Compass',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.merriweather(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white54,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(4.0, 4.0),
+                            blurRadius: 10.0,
+                            color: Colors.white.withOpacity(0.5)
+                          )
+                        ]
+                      )
+
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    '',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-            const Text(
-              '1 Kings 8:29',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                fontStyle: FontStyle.italic,
-                color: Colors.black54,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -39,7 +39,7 @@ class DirectionWidget extends StatelessWidget {
                   height: 8,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.red,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -55,7 +55,7 @@ class ArrowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.red
+      ..color = Colors.white
       ..style = PaintingStyle.fill;
 
     // Define arrow path
@@ -112,7 +112,7 @@ class CompassCircle extends StatelessWidget {
               padding: EdgeInsets.only(top: 15.0), // Add padding to move it outwards
               child: Text(
                 'N',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ),
           ),

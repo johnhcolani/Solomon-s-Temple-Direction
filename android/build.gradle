@@ -4,7 +4,16 @@ allprojects {
         mavenCentral()
     }
 }
-ext.kotlin_version = '2.0.0'
+ext{
+    compileSdkVersion = 33
+    minSdkVersion = 21
+    targetSdkVersion = 33
+    kotlin_version = '2.0.0'
+}
+dependencies {
+    classpath 'com.android.tools.build:gradle:7.2.2'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:'2.0.0'"
+}
 rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
