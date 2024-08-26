@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solomon_prayers_compass/features/temple_direction/presentation/screens/splash_screen.dart';
 import 'features/temple_direction/data/models/location_data_source.dart';
@@ -9,6 +10,10 @@ import 'features/temple_direction/presentation/bloc/temple_direction_bloc.dart';
 import 'features/temple_direction/presentation/screens/direction_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+       SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   runApp(const SolomonTempleApp());
 }
 
@@ -20,18 +25,15 @@ class SolomonTempleApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (context) =>
-                DirectionBloc(
-                    getDirection: GetDirection(
-                        DirectionRepositoryImpl(
-                          locationDataSource: LocationDataSource(),
-                        ))),
+            create: (context) => DirectionBloc(
+                    getDirection: GetDirection(DirectionRepositoryImpl(
+                  locationDataSource: LocationDataSource(),
+                ))),
             child: const DirectionPage()),
         BlocProvider<SplashBloc>(
           create: (context) => SplashBloc(),
         ),
       ],
-
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Temple of Solomon Direction',
