@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
@@ -145,52 +147,55 @@ class _DirectionPageState extends State<DirectionPage> {
                         ),
                         const Divider(height: 30,),
                         Expanded(
-                            flex: 1,
+flex: 1,
                             child: MyScrollablePages()),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            border: Border.all(
-                              color: Colors.white, // Border color
-                              width: 1.0, // Border width
-                              style: BorderStyle.solid, // Border style
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24),
+                              border: Border.all(
+                                color: Colors.white, // Border color
+                                width: 1.0, // Border width
+                                style: BorderStyle.solid, // Border style
+                              ),
                             ),
-                          ),
-                          height: 215,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(24),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                _videoController.value.isInitialized
-                                    ? AspectRatio(
-                                        aspectRatio:
-                                            _videoController.value.aspectRatio,
-                                        child: VideoPlayer(_videoController),
-                                      )
-                                    : const Center(
-                                        child: CircularProgressIndicator()),
-                                if (_isVideoFinished)
-                                  IconButton(
-                                    icon: const Icon(Icons.play_arrow,
-                                        color: Colors.white, size: 50),
-                                    onPressed: () {
-                                      _videoController.seekTo(
-                                          Duration.zero); // Restart video
-                                      _videoController.play(); // Play video
-                                      setState(() {
-                                        _isVideoFinished = false;
-                                      });
-                                    },
-                                  ),
-                              ],
+                            height: Platform.isIOS ? 215 :170,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(24),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  _videoController.value.isInitialized
+                                      ? AspectRatio(
+                                          aspectRatio:
+                                              _videoController.value.aspectRatio,
+                                          child: VideoPlayer(_videoController),
+                                        )
+                                      : const Center(
+                                          child: CircularProgressIndicator()),
+                                  if (_isVideoFinished)
+                                    IconButton(
+                                      icon: const Icon(Icons.play_arrow,
+                                          color: Colors.white, size: 50),
+                                      onPressed: () {
+                                        _videoController.seekTo(
+                                            Duration.zero); // Restart video
+                                        _videoController.play(); // Play video
+                                        setState(() {
+                                          _isVideoFinished = false;
+                                        });
+                                      },
+                                    ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 10),
                         DirectionWidget(direction: direction),
-                        const SizedBox(height: 140),
+                         SizedBox(height: Platform.isAndroid ? 1 : 140),
                       ],
                     ),
                   ),

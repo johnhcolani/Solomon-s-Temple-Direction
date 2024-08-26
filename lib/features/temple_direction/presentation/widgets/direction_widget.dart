@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -39,7 +41,7 @@ class DirectionWidget extends StatelessWidget {
                   height: 8,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white,
+                    color: Colors.red,
                   ),
                 ),
               ),
@@ -55,7 +57,7 @@ class ArrowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.white
+      ..color = Colors.red
       ..style = PaintingStyle.fill;
 
     // Define arrow path
@@ -82,8 +84,8 @@ class CompassCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 270,  // Increase the size of the container
-      height: 270, // Increase the size of the container
+      width: Platform.isIOS ? 270 : 250,  // Increase the size of the container
+      height: Platform.isIOS ? 270 : 250, // Increase the size of the container
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -99,7 +101,7 @@ class CompassCircle extends StatelessWidget {
                   child: Container(
                     width: 2,
                     height: 10,
-                    color: Colors.black,
+                    color: Colors.amber,
                   ),
                 ),
               ),
@@ -112,7 +114,7 @@ class CompassCircle extends StatelessWidget {
               padding: EdgeInsets.only(top: 15.0), // Add padding to move it outwards
               child: Text(
                 'N',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
               ),
             ),
           ),
@@ -122,7 +124,7 @@ class CompassCircle extends StatelessWidget {
               padding: EdgeInsets.only(right: 15.0), // Add padding to move it outwards
               child: Text(
                 'E',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ),
           ),
@@ -132,7 +134,7 @@ class CompassCircle extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 15.0), // Add padding to move it outwards
               child: Text(
                 'S',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ),
           ),
@@ -142,7 +144,7 @@ class CompassCircle extends StatelessWidget {
               padding: EdgeInsets.only(left: 15.0), // Add padding to move it outwards
               child: Text(
                 'W',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ),
           ),
