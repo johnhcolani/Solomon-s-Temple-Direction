@@ -121,7 +121,14 @@ class _DirectionPageState extends State<DirectionPage> {
                   return Container(
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.center,
-                    child: const Text('Fetching your location...'),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(color: Color(0xff9dbaca),),
+                        SizedBox(height: 16.0,),
+                        Text('Fetching your location...',style: TextStyle(color: Colors.white),),
+                      ],
+                    ),
                   );
                 } else if (state is LoadingState) {
                   return Container(

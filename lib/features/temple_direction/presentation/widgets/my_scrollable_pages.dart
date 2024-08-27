@@ -28,18 +28,19 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                   text: TextSpan(
                     style: GoogleFonts.merriweather(
                       fontSize: Platform.isIOS ? 18 : 14,
-                      color: const Color(0xffe6e3e0),
+                      color: const Color(0xffffffff),
                     ),
                     children: [
                       const TextSpan(
-                        text: 'And now, God of Israel, let your word that you promised your servant David my father come true.\n\n',
+                        text: '\nAnd now, God of Israel, let your word that you promised your servant David my father come true.\n\n',
                       ),
                       TextSpan(
                         text: '1 Kings 8:26',
                         style: GoogleFonts.merriweather(
                           fontSize: 16,
                           fontStyle: FontStyle.italic,
-                          color: const Color(0xffe6e3e0),
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xffb1afad),
                         ),
                       ),
                     ],
@@ -64,7 +65,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                         style: GoogleFonts.merriweather(
                           fontSize: 16,
                           fontStyle: FontStyle.italic,
-                          color: const Color(0xffe6e3e0),
+                          color: const Color(0xffb1afad),
                         ),
                       ),
                     ],
@@ -89,7 +90,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                         style: GoogleFonts.merriweather(
                           fontSize: 16,
                           fontStyle: FontStyle.italic,
-                          color: const Color(0xffe6e3e0),
+                          color: const Color(0xffb1afad),
                         ),
                       ),
                     ],
