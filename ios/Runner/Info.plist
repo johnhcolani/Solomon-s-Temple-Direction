@@ -7,7 +7,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>Your location is needed to display the direction to the Temple of Solomon.</string>
 	<key>CFBundleDisplayName</key>
-	<string>Temple Direction</string>
+	<string>Solomon Prayers Compass</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
