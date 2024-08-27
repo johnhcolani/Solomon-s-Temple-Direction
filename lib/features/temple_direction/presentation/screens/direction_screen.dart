@@ -121,143 +121,161 @@ class _DirectionPageState extends State<DirectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xff0d2938), // Start color
-              Color(0xff2e6e8c), // End color
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: RefreshIndicator(
-          onRefresh: _requestLocationAndFetchDirection,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: BlocBuilder<DirectionBloc, DirectionState>(
-              builder: (context, state) {
-                if (state is InitialState) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height,
-                    alignment: Alignment.center,
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(color: Color(0xff9dbaca)),
-                        SizedBox(height: 16.0),
-                        Text('Fetching your location...',
-                            style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                  );
-                } else if (state is LoadingState) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height,
-                    alignment: Alignment.center,
-                    child: const CircularProgressIndicator(),
-                  );
-                } else if (state is LoadedState) {
-                  double direction = state.direction - _currentHeading;
-                  return SafeArea(
-                    child: Container(
-                      margin: const EdgeInsets.all(24),
-                      height: MediaQuery.of(context).size.height,
-                      alignment: Alignment.center,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text(
-                              'Pray in this direction',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.merriweather(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xffe6e3e0),
-                              ),
-                            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double screenHeight = constraints.maxHeight;
+        double screenWidth = constraints.maxWidth;
+        bool isTablet = screenWidth > 600;
+
+        return Scaffold(
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xff0d2938), // Start color
+                  Color(0xff2e6e8c), // End color
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: RefreshIndicator(
+              onRefresh: _requestLocationAndFetchDirection,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: BlocBuilder<DirectionBloc, DirectionState>(
+                  builder: (context, state) {
+                    if (state is InitialState) {
+                      return Container(
+                        height: screenHeight,
+                        alignment: Alignment.center,
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(color: Color(0xff9dbaca)),
+                            SizedBox(height: 16.0),
+                            Text('Fetching your location...',
+                                style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
+                      );
+                    } else if (state is LoadingState) {
+                      return Container(
+                        height: screenHeight,
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(),
+                      );
+                    } else if (state is LoadedState) {
+                      double direction = state.direction - _currentHeading;
+                      return SafeArea(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: isTablet ? 40 : 24,
+                            vertical: isTablet ? 30 : 24,
                           ),
-                          const Divider(height: 20),
-                          Expanded(
-                            flex: 1,
-                            child: MyScrollablePages(),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(24),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.0,
-                                  style: BorderStyle.solid,
+                          height: screenHeight,
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Text(
+                                  'Pray in this direction',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.merriweather(
+                                    fontSize: isTablet ? 42 : 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xffe6e3e0),
+                                  ),
                                 ),
                               ),
-                              height: Platform.isIOS ? 230 : 170,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(24),
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: _togglePlayPause,
-                                      child: _videoController.value.isInitialized
-                                          ? Container(
-                                        constraints: const BoxConstraints.expand(), // Expand to fill the container
-                                        child: VideoPlayer(_videoController),
-                                      )
-                                          : const Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
+                              const Divider(height: 20),
+                              Expanded(
+                                flex: 1,
+                                child: MyScrollablePages(),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.0,
+                                      style: BorderStyle.solid,
                                     ),
-                                    AnimatedOpacity(
-                                      opacity: _showPlayPauseIcon ? 1.0 : 0.0,
-                                      duration: const Duration(milliseconds: 500),
-                                      child: _isVideoPlaying
-                                          ? const Icon(Icons.pause, color: Colors.white, size: 50)
-                                          : const Icon(Icons.play_arrow, color: Colors.white, size: 50),
+                                  ),
+                                  height: isTablet ? screenHeight * 0.4 : screenHeight * 0.25,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(24),
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: _togglePlayPause,
+                                          child: _videoController.value.isInitialized
+                                              ? Container(
+                                            constraints: const BoxConstraints.expand(),
+                                            child: FittedBox(
+                                              fit: BoxFit.cover,
+                                              child: SizedBox(
+                                                width: _videoController.value.size.width,
+                                                height: _videoController.value.size.height,
+                                                child: VideoPlayer(_videoController),
+                                              ),
+                                            ),
+                                          )
+                                              : const Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        ),
+                                        AnimatedOpacity(
+                                          opacity: _showPlayPauseIcon ? 1.0 : 0.0,
+                                          duration: const Duration(milliseconds: 500),
+                                          child: _isVideoPlaying
+                                              ? const Icon(Icons.pause, color: Colors.white, size: 50)
+                                              : const Icon(Icons.play_arrow, color: Colors.white, size: 50),
+                                        ),
+                                        if (_isVideoFinished)
+                                          IconButton(
+                                            icon: const Icon(Icons.replay, color: Colors.white, size: 50),
+                                            onPressed: () {
+                                              _videoController.seekTo(Duration.zero);
+                                              _videoController.play();
+                                              setState(() {
+                                                _isVideoFinished = false;
+                                                _isVideoPlaying = true;
+                                              });
+                                            },
+                                          ),
+                                      ],
                                     ),
-                                    if (_isVideoFinished)
-                                      IconButton(
-                                        icon: const Icon(Icons.replay, color: Colors.white, size: 50),
-                                        onPressed: () {
-                                          _videoController.seekTo(Duration.zero);
-                                          _videoController.play();
-                                          setState(() {
-                                            _isVideoFinished = false;
-                                            _isVideoPlaying = true;
-                                          });
-                                        },
-                                      ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
+                              const SizedBox(height: 20),
+                              DirectionWidget(direction: direction),
+                              SizedBox(height: isTablet ? 80 : (Platform.isAndroid ? 60 : 140)),
+                            ],
                           ),
-                          const SizedBox(height: 20),
-                          DirectionWidget(direction: direction),
-                          SizedBox(height: Platform.isAndroid ? 60 : 140),
-                        ],
-                      ),
-                    ),
-                  );
-                } else if (state is ErrorState) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height,
-                    alignment: Alignment.center,
-                    child: Text(state.message),
-                  );
-                }
-                return Container();
-              },
+                        ),
+                      );
+                    } else if (state is ErrorState) {
+                      return Container(
+                        height: screenHeight,
+                        alignment: Alignment.center,
+                        child: Text(state.message),
+                      );
+                    }
+                    return Container();
+                  },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
