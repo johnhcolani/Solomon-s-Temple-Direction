@@ -28,7 +28,6 @@ class _DirectionPageState extends State<DirectionPage> {
   void initState() {
     super.initState();
     _requestLocationAndFetchDirection();
-    
     _listenToCompass();
     // Initialize the video player controller with the asset video
     _videoController = VideoPlayerController.asset(
@@ -43,7 +42,7 @@ class _DirectionPageState extends State<DirectionPage> {
           _isVideoFinished = _videoController.value.position >=
               _videoController.value.duration;
         });
-      }); // Start listening to the compass
+      });
   }
 
   @override
@@ -82,9 +81,9 @@ class _DirectionPageState extends State<DirectionPage> {
       );
       print("Current location: ${position.latitude}, ${position.longitude}");
       context.read<DirectionBloc>().add(GetDirectionEvent(
-            position.latitude,
-            position.longitude,
-          ));
+        position.latitude,
+        position.longitude,
+      ));
     } catch (e) {
       print("Error getting location: $e");
     }
@@ -101,114 +100,122 @@ class _DirectionPageState extends State<DirectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff0d2938),
-      body: RefreshIndicator(
-        onRefresh:
-            _requestLocationAndFetchDirection, // Use the existing method for refresh
-        child: SingleChildScrollView(
-          // Wrap BlocBuilder in a scrollable view for RefreshIndicator
-          physics:
-              const AlwaysScrollableScrollPhysics(), // Ensure scrolling is always possible
-          child: BlocBuilder<DirectionBloc, DirectionState>(
-            builder: (context, state) {
-              if (state is InitialState) {
-                return Container(
-                  height: MediaQuery.of(context).size.height,
-                  alignment: Alignment.center,
-                  child: const Text('Fetching your location...'),
-                );
-              } else if (state is LoadingState) {
-                return Container(
-                  height: MediaQuery.of(context).size.height,
-                  alignment: Alignment.center,
-                  child: const CircularProgressIndicator(),
-                );
-              } else if (state is LoadedState) {
-                // Adjust the arrow direction based on the current heading and the calculated direction to the temple
-                double direction = state.direction - _currentHeading;
-                return SafeArea(
-                  child: Container(
-                    margin: const EdgeInsets.all(24),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xff0d2938), // Start color
+              Color(0xff2e6e8c), // End color
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: RefreshIndicator(
+          onRefresh: _requestLocationAndFetchDirection,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: BlocBuilder<DirectionBloc, DirectionState>(
+              builder: (context, state) {
+                if (state is InitialState) {
+                  return Container(
                     height: MediaQuery.of(context).size.height,
                     alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text(
-                            'Pray in this direction',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.merriweather(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xffe6e3e0),
-                            ),
-                          ),
-                        ),
-                        const Divider(height: 30,),
-                        Expanded(
-flex: 1,
-                            child: MyScrollablePages()),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              border: Border.all(
-                                color: Colors.white, // Border color
-                                width: 1.0, // Border width
-                                style: BorderStyle.solid, // Border style
+                    child: const Text('Fetching your location...'),
+                  );
+                } else if (state is LoadingState) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator(),
+                  );
+                } else if (state is LoadedState) {
+                  double direction = state.direction - _currentHeading;
+                  return SafeArea(
+                    child: Container(
+                      margin: const EdgeInsets.all(24),
+                      height: MediaQuery.of(context).size.height,
+                      alignment: Alignment.center,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(
+                              'Pray in this direction',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.merriweather(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xffe6e3e0),
                               ),
                             ),
-                            height: Platform.isIOS ? 215 :170,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(24),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  _videoController.value.isInitialized
-                                      ? AspectRatio(
-                                          aspectRatio:
-                                              _videoController.value.aspectRatio,
-                                          child: VideoPlayer(_videoController),
-                                        )
-                                      : const Center(
-                                          child: CircularProgressIndicator()),
-                                  if (_isVideoFinished)
-                                    IconButton(
-                                      icon: const Icon(Icons.play_arrow,
-                                          color: Colors.white, size: 50),
-                                      onPressed: () {
-                                        _videoController.seekTo(
-                                            Duration.zero); // Restart video
-                                        _videoController.play(); // Play video
-                                        setState(() {
-                                          _isVideoFinished = false;
-                                        });
-                                      },
+                          ),
+                          const Divider(height: 20),
+                          Expanded(
+                            flex: 1,
+                            child: MyScrollablePages(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.0,
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                              height: Platform.isIOS ? 215 : 170,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(24),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    _videoController.value.isInitialized
+                                        ? AspectRatio(
+                                      aspectRatio:
+                                      _videoController.value.aspectRatio,
+                                      child: VideoPlayer(_videoController),
+                                    )
+                                        : const Center(
+                                      child: CircularProgressIndicator(),
                                     ),
-                                ],
+                                    if (_isVideoFinished)
+                                      IconButton(
+                                        icon: const Icon(Icons.play_arrow,
+                                            color: Colors.white, size: 50),
+                                        onPressed: () {
+                                          _videoController.seekTo(Duration.zero);
+                                          _videoController.play();
+                                          setState(() {
+                                            _isVideoFinished = false;
+                                          });
+                                        },
+                                      ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        DirectionWidget(direction: direction),
-                         SizedBox(height: Platform.isAndroid ? 1 : 140),
-                      ],
+                          const SizedBox(height: 20),
+                          DirectionWidget(direction: direction),
+                          SizedBox(height: Platform.isAndroid ? 60 : 140),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              } else if (state is ErrorState) {
-                return Container(
-                  height: MediaQuery.of(context).size.height,
-                  alignment: Alignment.center,
-                  child: Text(state.message),
-                );
-              }
-              return Container();
-            },
+                  );
+                } else if (state is ErrorState) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    alignment: Alignment.center,
+                    child: Text(state.message),
+                  );
+                }
+                return Container();
+              },
+            ),
           ),
         ),
       ),
