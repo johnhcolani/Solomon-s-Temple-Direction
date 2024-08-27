@@ -48,12 +48,12 @@ class SplashScreen extends StatelessWidget {
                       style: GoogleFonts.merriweather(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white54,
+                        color: Colors.white,
                         shadows: [
                           Shadow(
                             offset: const Offset(4.0, 4.0),
                             blurRadius: 10.0,
-                            color: Colors.white.withOpacity(0.5)
+                            color: Colors.amber.withOpacity(0.5)
                           )
                         ]
                       )
