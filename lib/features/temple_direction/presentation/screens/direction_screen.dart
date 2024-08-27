@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_compass/flutter_compass.dart';
@@ -23,6 +23,8 @@ class _DirectionPageState extends State<DirectionPage> {
   double _currentHeading = 0.0; // Device's heading
   late VideoPlayerController _videoController;
   bool _isVideoFinished = false;
+  bool _isVideoPlaying = true; // Track whether the video is playing
+  bool _showPlayPauseIcon = false; // Initially, the icon is not shown
 
   @override
   void initState() {
@@ -74,12 +76,12 @@ class _DirectionPageState extends State<DirectionPage> {
     }
 
     print("Getting current location...");
-    Position position;
     try {
-      position = await Geolocator.getCurrentPosition(
+      Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
       print("Current location: ${position.latitude}, ${position.longitude}");
+
       context.read<DirectionBloc>().add(GetDirectionEvent(
         position.latitude,
         position.longitude,
@@ -93,6 +95,26 @@ class _DirectionPageState extends State<DirectionPage> {
     FlutterCompass.events?.listen((event) {
       setState(() {
         _currentHeading = event.heading ?? 0;
+      });
+    });
+  }
+
+  void _togglePlayPause() {
+    setState(() {
+      if (_videoController.value.isPlaying) {
+        _videoController.pause();
+        _isVideoPlaying = false;
+      } else {
+        _videoController.play();
+        _isVideoPlaying = true;
+      }
+      _showPlayPauseIcon = true; // Show the icon immediately on tap
+
+      // Start a timer to fade out the icon after 1 second
+      Timer(const Duration(seconds: 1), () {
+        setState(() {
+          _showPlayPauseIcon = false;
+        });
       });
     });
   }
@@ -124,9 +146,10 @@ class _DirectionPageState extends State<DirectionPage> {
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircularProgressIndicator(color: Color(0xff9dbaca),),
-                        SizedBox(height: 16.0,),
-                        Text('Fetching your location...',style: TextStyle(color: Colors.white),),
+                        CircularProgressIndicator(color: Color(0xff9dbaca)),
+                        SizedBox(height: 16.0),
+                        Text('Fetching your location...',
+                            style: TextStyle(color: Colors.white)),
                       ],
                     ),
                   );
@@ -174,30 +197,39 @@ class _DirectionPageState extends State<DirectionPage> {
                                   style: BorderStyle.solid,
                                 ),
                               ),
-                              height: Platform.isIOS ? 215 : 170,
+                              height: Platform.isIOS ? 230 : 170,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(24),
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    _videoController.value.isInitialized
-                                        ? AspectRatio(
-                                      aspectRatio:
-                                      _videoController.value.aspectRatio,
-                                      child: VideoPlayer(_videoController),
-                                    )
-                                        : const Center(
-                                      child: CircularProgressIndicator(),
+                                    GestureDetector(
+                                      onTap: _togglePlayPause,
+                                      child: _videoController.value.isInitialized
+                                          ? Container(
+                                        constraints: const BoxConstraints.expand(), // Expand to fill the container
+                                        child: VideoPlayer(_videoController),
+                                      )
+                                          : const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    ),
+                                    AnimatedOpacity(
+                                      opacity: _showPlayPauseIcon ? 1.0 : 0.0,
+                                      duration: const Duration(milliseconds: 500),
+                                      child: _isVideoPlaying
+                                          ? const Icon(Icons.pause, color: Colors.white, size: 50)
+                                          : const Icon(Icons.play_arrow, color: Colors.white, size: 50),
                                     ),
                                     if (_isVideoFinished)
                                       IconButton(
-                                        icon: const Icon(Icons.play_arrow,
-                                            color: Colors.white, size: 50),
+                                        icon: const Icon(Icons.replay, color: Colors.white, size: 50),
                                         onPressed: () {
                                           _videoController.seekTo(Duration.zero);
                                           _videoController.play();
                                           setState(() {
                                             _isVideoFinished = false;
+                                            _isVideoPlaying = true;
                                           });
                                         },
                                       ),
