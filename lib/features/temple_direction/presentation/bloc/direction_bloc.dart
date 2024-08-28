@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solomon_prayers_compass/features/temple_direction/presentation/bloc/temple_direction_event.dart';
-import 'package:solomon_prayers_compass/features/temple_direction/presentation/bloc/temple_direction_state.dart';
+import 'package:solomon_prayers_compass/features/temple_direction/presentation/bloc/direction_event.dart';
+import 'package:solomon_prayers_compass/features/temple_direction/presentation/bloc/direction_state.dart';
 import '../../domain/usecases/get_direction.dart';
 
 

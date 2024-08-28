@@ -6,9 +6,9 @@ import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
-import '../bloc/temple_direction_bloc.dart';
-import '../bloc/temple_direction_event.dart';
-import '../bloc/temple_direction_state.dart';
+import '../bloc/direction_bloc.dart';
+import '../bloc/direction_event.dart';
+import '../bloc/direction_state.dart';
 import '../widgets/direction_widget.dart';
 import '../widgets/my_scrollable_pages.dart';
 
