@@ -83,9 +83,9 @@ class _DirectionPageState extends State<DirectionPage> {
       print("Current location: ${position.latitude}, ${position.longitude}");
 
       context.read<DirectionBloc>().add(GetDirectionEvent(
-        position.latitude,
-        position.longitude,
-      ));
+            position.latitude,
+            position.longitude,
+          ));
     } catch (e) {
       print("Error getting location: $e");
     }
@@ -146,58 +146,58 @@ class _DirectionPageState extends State<DirectionPage> {
                 child: BlocBuilder<DirectionBloc, DirectionState>(
                   builder: (context, state) {
                     if (state is InitialState) {
-                      return Container(
+                      return SizedBox(
                         height: screenHeight,
-                        alignment: Alignment.center,
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircularProgressIndicator(color: Color(0xff9dbaca)),
-                            SizedBox(height: 16.0),
-                            Text('Fetching your location...',
-                                style: TextStyle(color: Colors.white)),
-                          ],
+                        child: const Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: CircularProgressIndicator(
+                                      color: Color(0xff9dbaca))),
+                              SizedBox(height: 16.0),
+                              Text('Fetching your location...',
+                                  style: TextStyle(color: Colors.white)),
+                            ],
+                          ),
                         ),
                       );
                     } else if (state is LoadingState) {
-                      return Container(
+                      return SizedBox(
                         height: screenHeight,
-                        alignment: Alignment.center,
                         child: const CircularProgressIndicator(),
                       );
                     } else if (state is LoadedState) {
                       double direction = state.direction - _currentHeading;
                       return SafeArea(
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: isTablet ? 40 : 24,
-                            vertical: isTablet ? 30 : 24,
-                          ),
+                        child: SizedBox(
                           height: screenHeight,
-                          alignment: Alignment.center,
                           child: Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
                                 child: Text(
                                   'Pray in this direction',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.merriweather(
-                                    fontSize: isTablet ? 42 : 24,
+                                    fontSize: isTablet ? 38 : 24,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xffe6e3e0),
                                   ),
                                 ),
                               ),
                               const Divider(height: 20),
-                              Expanded(
-                                flex: 1,
+                              SizedBox(
+                                height: isTablet
+                                    ? 280
+                                    : (Platform.isAndroid ? 170 : 190),
                                 child: MyScrollablePages(),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  width: double.infinity,
+                                  width: screenWidth *0.85,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(24),
                                     border: Border.all(
@@ -206,7 +206,11 @@ class _DirectionPageState extends State<DirectionPage> {
                                       style: BorderStyle.solid,
                                     ),
                                   ),
-                                  height: isTablet ? screenHeight * 0.4 : screenHeight * 0.25,
+                                  //isTablet ? 280 : (Platform.isAndroid ? 120 : 240),
+                                  height: isTablet
+                                      ? screenHeight * 0.35
+                                      : screenHeight * 0.25,
+
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(24),
                                     child: Stack(
@@ -214,34 +218,48 @@ class _DirectionPageState extends State<DirectionPage> {
                                       children: [
                                         GestureDetector(
                                           onTap: _togglePlayPause,
-                                          child: _videoController.value.isInitialized
+                                          child: _videoController
+                                                  .value.isInitialized
                                               ? Container(
-                                            constraints: const BoxConstraints.expand(),
-                                            child: FittedBox(
-                                              fit: BoxFit.cover,
-                                              child: SizedBox(
-                                                width: _videoController.value.size.width,
-                                                height: _videoController.value.size.height,
-                                                child: VideoPlayer(_videoController),
-                                              ),
-                                            ),
-                                          )
+                                                  constraints:
+                                                      const BoxConstraints
+                                                          .expand(),
+                                                  child: FittedBox(
+                                                    fit: BoxFit.cover,
+                                                    child: SizedBox(
+                                                      width: _videoController
+                                                          .value.size.width,
+                                                      height: _videoController
+                                                          .value.size.height,
+                                                      child: VideoPlayer(
+                                                          _videoController),
+                                                    ),
+                                                  ),
+                                                )
                                               : const Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                ),
                                         ),
                                         AnimatedOpacity(
-                                          opacity: _showPlayPauseIcon ? 1.0 : 0.0,
-                                          duration: const Duration(milliseconds: 500),
+                                          opacity:
+                                              _showPlayPauseIcon ? 1.0 : 0.0,
+                                          duration:
+                                              const Duration(milliseconds: 500),
                                           child: _isVideoPlaying
-                                              ? const Icon(Icons.pause, color: Colors.white, size: 50)
-                                              : const Icon(Icons.play_arrow, color: Colors.white, size: 50),
+                                              ? const Icon(Icons.pause,
+                                                  color: Colors.white, size: 50)
+                                              : const Icon(Icons.play_arrow,
+                                                  color: Colors.white,
+                                                  size: 50),
                                         ),
                                         if (_isVideoFinished)
                                           IconButton(
-                                            icon: const Icon(Icons.replay, color: Colors.white, size: 50),
+                                            icon: const Icon(Icons.replay,
+                                                color: Colors.white, size: 50),
                                             onPressed: () {
-                                              _videoController.seekTo(Duration.zero);
+                                              _videoController
+                                                  .seekTo(Duration.zero);
                                               _videoController.play();
                                               setState(() {
                                                 _isVideoFinished = false;
@@ -255,17 +273,22 @@ class _DirectionPageState extends State<DirectionPage> {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              DirectionWidget(direction: direction),
-                              SizedBox(height: isTablet ? 80 : (Platform.isAndroid ? 60 : 140)),
+                              SizedBox(
+                                  height: isTablet
+                                      ? screenHeight * 0.3
+                                      : (Platform.isAndroid
+                                          ? 220
+                                          : screenHeight * 0.3),
+                                  child: DirectionWidget(direction: direction)),
+                              //SizedBox(height: isTablet ? 80 : (Platform.isAndroid ? 60 : 140)),
                             ],
                           ),
                         ),
                       );
                     } else if (state is ErrorState) {
-                      return Container(
+                      return SizedBox(
                         height: screenHeight,
-                        alignment: Alignment.center,
-                        child: Text(state.message),
+                        child: Center(child: Text(state.message)),
                       );
                     }
                     return Container();

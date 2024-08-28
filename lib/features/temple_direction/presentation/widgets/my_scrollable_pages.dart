@@ -36,7 +36,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                           textAlign: TextAlign.center,
                           text: TextSpan(
                             style: GoogleFonts.merriweather(
-                              fontSize: isTablet ? 36 : 16,
+                              fontSize: isTablet ? 26 : 16,
                               color: const Color(0xffffffff),
                             ),
                             children: [
@@ -47,7 +47,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                               TextSpan(
                                 text: '1 Kings 8:26',
                                 style: GoogleFonts.merriweather(
-                                  fontSize: isTablet ? 36 : 16,
+                                  fontSize: isTablet ? 26 : 16,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.bold,
                                   color: const Color(0xffb1afad),
@@ -69,7 +69,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                           textAlign: TextAlign.center,
                           text: TextSpan(
                             style: GoogleFonts.merriweather(
-                              fontSize: isTablet ? 36 : 16,
+                              fontSize: isTablet ? 26 : 16,
                               color: const Color(0xffe6e3e0),
                             ),
                             children: [
@@ -80,7 +80,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                               TextSpan(
                                 text: '1 Kings 8:27',
                                 style: GoogleFonts.merriweather(
-                                  fontSize: isTablet ? 36 : 16,
+                                  fontSize: isTablet ? 26 : 16,
                                   fontStyle: FontStyle.italic,
                                   color: const Color(0xffb1afad),
                                 ),
@@ -101,7 +101,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                           textAlign: TextAlign.center,
                           text: TextSpan(
                             style: GoogleFonts.merriweather(
-                              fontSize: isTablet ? 36 : 16,
+                              fontSize: isTablet ? 26 : 16,
                               color: const Color(0xffe6e3e0),
                             ),
                             children: [
@@ -112,7 +112,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                               TextSpan(
                                 text: '1 Kings 8:28',
                                 style: GoogleFonts.merriweather(
-                                  fontSize: isTablet ? 36 : 16,
+                                  fontSize: isTablet ? 26 : 16,
                                   fontStyle: FontStyle.italic,
                                   color: const Color(0xffb1afad),
                                 ),
@@ -133,7 +133,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                           textAlign: TextAlign.center,
                           text: TextSpan(
                             style: GoogleFonts.merriweather(
-                              fontSize: isTablet ? 36 : 16,
+                              fontSize: isTablet ? 26 : 16,
                               color: const Color(0xffe6e3e0),
                             ),
                             children: [
@@ -144,7 +144,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                               TextSpan(
                                 text: 'My Name shall be there\n',
                                 style: GoogleFonts.merriweather(
-                                  fontSize: isTablet ? 36 : 16,
+                                  fontSize: isTablet ? 26 : 16,
                                   color: Colors.amber,
                                   decoration: TextDecoration.underline,
                                 ),
@@ -156,7 +156,7 @@ class _MyScrollablePagesState extends State<MyScrollablePages> {
                               TextSpan(
                                 text: '1 Kings 8:29',
                                 style: GoogleFonts.merriweather(
-                                  fontSize: isTablet ? 36 : 16,
+                                  fontSize: isTablet ? 26 : 16,
                                   fontStyle: FontStyle.italic,
                                   color: const Color(0xffe6e3e0),
                                 ),
