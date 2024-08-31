@@ -1,0 +1,58 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Build iOS release
+        run: flutter build ipa --release
+
+  deploy-ios:
+    runs-on: macos-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Upload to App Store Connect
+        uses: appleboy/app-store-release-action@v0.5.1
+        with:
+          ipa-path: build/ios/ipa/Runner.ipa
+          app_store_connect_key: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+          app_store_connect_issuer_id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+          app_store_connect_key_id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
