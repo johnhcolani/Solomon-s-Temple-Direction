@@ -5,7 +5,7 @@ A new Flutter project that uses clean architecture and Bloc as a state managemen
 ## Getting Started
 
 This project is a starting point for a Flutter application.
-
+to help people to find direction to pray to God
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
