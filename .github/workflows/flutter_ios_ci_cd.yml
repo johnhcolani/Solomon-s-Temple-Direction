@@ -29,14 +29,7 @@ jobs:
 
 
       - name: Build iOS release
-        run: |
-          flutter build ipa --release
-        env:
-          FLUTTER_TARGET: lib/main.dart
-          BUILD_NUMBER: ${{ github.run_number }}
-          GIT_COMMIT: ${{ github.sha }}
-          GIT_REF: ${{ github.ref }}
-          xcodebuild-args: "-allowProvisioningUpdates"
+        run: flutter build ipa --release --export-options-plist=ExportOptions.plist --no-codesign
 
   deploy-ios:
     runs-on: macos-latest
