@@ -54,8 +54,8 @@ jobs:
           GIT_COMMIT: ${{ github.sha }}
           GIT_REF: ${{ github.ref }}
           APPLE_DEVELOPMENT_TEAM: "YOUR_TEAM_ID"
-        xcodebuild-args:
-          -allowProvisioningUpdates
+          xcodebuild-args:
+           -allowProvisioningUpdates
 
 
       - name: Upload to App Store Connect
