@@ -46,6 +46,22 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Xcode Build and Archive
+        run: |
+            xcodebuild -workspace ios/Runner.xcworkspace \
+                       -scheme Runner \
+                       -configuration Release \
+                       -sdk iphoneos \
+                       -destination 'generic/platform=iOS' \
+                       -archivePath build/ios/archive/Runner.xcarchive \
+                       -allowProvisioningUpdates archive
+            xcodebuild -exportArchive \
+                       -archivePath build/ios/archive/Runner.xcarchive \
+                       -exportOptionsPlist ios/Runner/ExportOptions.plist \
+                       -exportPath build/ios/ipa \
+                       -allowProvisioningUpdates
+      
+
       - name: Upload to App Store Connect
         uses: appleboy/app-store-release-action@v0.5.1
         with:
