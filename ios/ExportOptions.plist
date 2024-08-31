@@ -2,20 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>compileBitcode</key>
+    <false/>
+    <key>destination</key>
+    <string>export</string>
     <key>method</key>
-    <string>app-store</string> <!-- Use "ad-hoc" for Ad-Hoc deployment -->
-    <key>teamID</key>
-    <string>YOUR_TEAM_ID</string>
+    <string>app-store</string>
     <key>provisioningProfiles</key>
     <dict>
         <key>com.johncolani.templeDirection</key>
-        <string>Your_Provisioning_Profile_Name</string>
+        <string>solomon_prayers_compass</string>
     </dict>
     <key>signingStyle</key>
-    <string>manual</string> <!-- or "automatic" -->
+    <string>manual</string>
     <key>stripSwiftSymbols</key>
     <true/>
-    <key>compileBitcode</key>
-    <true/>
+    <key>989YR629U7</key>
+    <string>johnacolani@gmail.com</string>
+    <key>thinning</key>
+    <string>&lt;none&gt;</string>
 </dict>
 </plist>
