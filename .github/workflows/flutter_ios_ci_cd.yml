@@ -28,8 +28,13 @@ jobs:
         run: flutter test
 
 
+      - name: Check ExportOptions.plist presence
+        run: |
+            ls -la
+            ls -la ios/
+
       - name: Build iOS release
-        run: flutter build ipa --release --export-options-plist=ExportOptions.plist --no-codesign
+        run: flutter build ipa --release --export-options-plist=ios/ExportOptions.plist --no-codesign
 
   deploy-ios:
     runs-on: macos-latest
