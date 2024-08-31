@@ -46,6 +46,18 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Build iOS release
+        run: flutter build ipa --release --no-codesign
+        env:
+          FLUTTER_TARGET: lib/main.dart
+          BUILD_NUMBER: ${{ github.run_number }}
+          GIT_COMMIT: ${{ github.sha }}
+          GIT_REF: ${{ github.ref }}
+          APPLE_DEVELOPMENT_TEAM: "YOUR_TEAM_ID"
+        xcodebuild-args:
+          -allowProvisioningUpdates
+
+
       - name: Upload to App Store Connect
         uses: appleboy/app-store-release-action@v0.5.1
         with:
