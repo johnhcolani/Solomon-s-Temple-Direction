@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -16,12 +15,13 @@ class DirectionWidget extends StatelessWidget {
         children: [
           // Compass circle with degree markers
           const CompassCircle(),
-          // Custom arrow pointing to the direction
+          // Image pointing to the direction, rotated by 180 degrees
           Transform.rotate(
-            angle: direction * (math.pi / 180), // Convert direction to radians
-            child: CustomPaint(
-              size: const Size(120, 120), // Adjust size as needed
-              painter: ArrowPainter(),
+            angle: direction * (math.pi / 180) + math.pi, // Convert direction to radians and rotate 180 degrees
+            child: Image.asset(
+              'assets/images/Image.png', // Path to your image
+              width: 120, // Adjust size as needed
+              height: 120, // Adjust size as needed
             ),
           ),
           // Circle with dot rotating to show the direction
@@ -53,38 +53,13 @@ class DirectionWidget extends StatelessWidget {
   }
 }
 
-class ArrowPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.amber
-      ..style = PaintingStyle.fill;
-
-    // Define arrow path
-    Path path = Path();
-    path.moveTo(size.width * 0.5, 0); // Arrow tip
-    path.lineTo(size.width * 0.6, size.height * 0.4); // Right edge of the arrowhead
-    path.lineTo(size.width * 0.5, size.height * 0.3); // Bottom middle of the arrowhead
-    path.lineTo(size.width * 0.4, size.height * 0.4); // Left edge of the arrowhead
-    path.close(); // Close path
-
-    // Draw the path
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
-}
-
 class CompassCircle extends StatelessWidget {
   const CompassCircle({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: Platform.isIOS ? 270 : 240,  // Increase the size of the container
+      width: Platform.isIOS ? 270 : 240, // Increase the size of the container
       height: Platform.isIOS ? 270 : 240, // Increase the size of the container
       child: Stack(
         alignment: Alignment.center,

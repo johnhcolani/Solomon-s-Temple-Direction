@@ -181,7 +181,7 @@ class _DirectionPageState extends State<DirectionPage> {
                                   'Pray in this direction',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.merriweather(
-                                    fontSize: isTablet ? 38 : 24,
+                                    fontSize: isTablet ? 32 : 24,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xffe6e3e0),
                                   ),
@@ -208,7 +208,7 @@ class _DirectionPageState extends State<DirectionPage> {
                                   ),
                                   //isTablet ? 280 : (Platform.isAndroid ? 120 : 240),
                                   height: isTablet
-                                      ? screenHeight * 0.35
+                                      ? screenHeight * 0.29
                                       : screenHeight * 0.25,
 
                                   child: ClipRRect(
