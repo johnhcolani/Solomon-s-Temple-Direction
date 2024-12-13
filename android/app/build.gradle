@@ -1,0 +1,60 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android" // Required for Kotlin
+    id "dev.flutter.flutter-gradle-plugin" // Flutter Gradle Plugin must be applied after Android & Kotlin plugins
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    namespace = "com.johncolani.temple_direction"
+    compileSdk = 34 // Set to at least 31 or higher for modern libraries
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8" // This ensures Kotlin compatibility
+    }
+
+    defaultConfig {
+        applicationId = "com.johncolani.temple_direction"
+        minSdk = 21 // Minimum SDK version supported
+        targetSdk = 34 // Target the latest SDK
+        versionCode = 1
+        versionName = "1.0"
+    }
+
+    signingConfigs {
+        release {
+            keyAlias = keystoreProperties['keyAlias']
+            keyPassword = keystoreProperties['keyPassword']
+            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword = keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.release
+            // Enable shrinking, obfuscation, and optimization
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+flutter {
+    source = "../.." // Flutter module path
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version" // Adds Kotlin standard library
+}
